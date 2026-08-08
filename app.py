@@ -36,7 +36,7 @@ if raw_df is None:
   st.error(
       "⚠️ **`campaigns.csv` not found!** Please make sure you copied all the"
       " extracted CSV files (including `campaigns.csv`) into your project folder"
-      " (`D:\Skillorbit`)."
+      " (`D:\\Skillorbit`)."
   )
 else:
   # --- MODULE 2: DATA CLEANING & STANDARDIZATION ---
@@ -45,14 +45,12 @@ else:
   # Clean column headers
   df.columns = df.columns.str.strip().str.lower()
 
-
   # Helper to check and rename common column variations if needed
   def find_col(possible_names):
     for col in possible_names:
       if col in df.columns:
         return col
     return None
-
 
   # Map columns dynamically based on standard Kaggle structures
   col_channel = find_col(
@@ -79,19 +77,27 @@ else:
       df[col_campaign] if col_campaign else "Campaign A"
   )
   processed_df["Impressions"] = (
-      df[col_impressions] if col_impressions else np.random.randint(1000, 50000, size=len(df))
+      df[col_impressions]
+      if col_impressions
+      else np.random.randint(1000, 50000, size=len(df))
   )
   processed_df["Clicks"] = (
       df[col_clicks] if col_clicks else np.random.randint(100, 5000, size=len(df))
   )
   processed_df["Cost"] = (
-      df[col_cost] if col_cost else np.random.uniform(50.0, 1000.0, size=len(df))
+      df[col_cost]
+      if col_cost
+      else np.random.uniform(50.0, 1000.0, size=len(df))
   )
   processed_df["Conversions"] = (
-      df[col_conversions] if col_conversions else np.random.randint(5, 300, size=len(df))
+      df[col_conversions]
+      if col_conversions
+      else np.random.randint(5, 300, size=len(df))
   )
   processed_df["Revenue"] = (
-      df[col_revenue] if col_revenue else np.random.uniform(100.0, 3000.0, size=len(df))
+      df[col_revenue]
+      if col_revenue
+      else np.random.uniform(100.0, 3000.0, size=len(df))
   )
 
   if col_date:
@@ -256,11 +262,10 @@ else:
     # --- MODULE 5: REPORT GENERATION ---
     st.markdown("---")
     st.subheader("📁 Report Generation")
-    if st.button("Export Filtered Analytics Data (CSV)"):
-      csv_data = filtered_df.to_csv(index=False).encode("utf-8")
-      st.download_button(
-          label="Download CSV Report",
-          data=csv_data,
-          file_name="marketing_performance_report.csv",
-          mime="text/csv",
-      )
+    csv_data = filtered_df.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        label="Download Filtered Analytics Data (CSV)",
+        data=csv_data,
+        file_name="marketing_performance_report.csv",
+        mime="text/csv",
+    )
